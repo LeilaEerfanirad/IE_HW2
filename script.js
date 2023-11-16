@@ -49,6 +49,7 @@ function updateTaskList() {
         li.innerHTML = `
             <span>${task.title} - Deadline: ${task.deadline}</span>
             <button onclick="completeTask(${index})">Complete</button>
+            
         `;
         taskList.appendChild(li);
     });
