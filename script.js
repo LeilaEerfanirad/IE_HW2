@@ -43,12 +43,13 @@ function updateTaskList() {
     taskList.innerHTML = '';
 
     const today = new Date().toISOString().split('T')[0];
-
+    
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
         li.innerHTML = `
             <span>${task.title} - Deadline: ${task.deadline}</span>
             <button onclick="completeTask(${index})">Complete</button>
+            <button onclick="deleteTask(${index})">Delete</button>
             
         `;
         taskList.appendChild(li);
@@ -70,6 +71,10 @@ function updateTaskList() {
     completedTasks.forEach(task => {
         const li = document.createElement('li');
         li.textContent = `${task.title} - Completed on: ${new Date().toLocaleString()}`;
+        // li.innerHTML = `
+        //     <span>${task.title} - Completed on: ${new Date(task.completedOn).toLocaleString()}</span>
+        //     <button onclick="deleteCompletedTask(${index})">Delete</button>
+        // `;
         completedList.appendChild(li);
     });
 }
@@ -92,6 +97,19 @@ function saveCompletedTasksToLocalStorage() {
     localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
 }
 
+function deleteTask(index) {
+    tasks.splice(index, 1);
+    saveTasksToLocalStorage();
+    updateTaskList();
+    updateTaskSummary();
+}
+
+function deleteCompletedTask(index) {
+    completedTasks.splice(index, 1);
+    saveCompletedTasksToLocalStorage();
+    updateTaskList();
+    updateTaskSummary();
+}
 // Initial update of the task list and summary
 updateTaskList();
 updateTaskSummary();
