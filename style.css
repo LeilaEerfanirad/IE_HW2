@@ -79,7 +79,7 @@ li {
     flex-wrap: wrap;
 
 }
-#taskSummeryStyle {
+.taskSummeryStyle {
     background-color: #0d4810;
     margin: 10px;
     border-radius: 10px ;

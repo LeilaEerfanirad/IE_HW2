@@ -36,7 +36,7 @@ function completeTask(index) {
     saveTasksToLocalStorage();
     saveCompletedTasksToLocalStorage();
 
-     updateTaskList();
+     //updateTaskList();
      updateTaskSummary();
 }
 
@@ -45,6 +45,8 @@ function updateTaskList() {
     totalList.innerHTML = '';
     const taskList = document.getElementById('taskList');
     taskList.innerHTML = '';
+
+    //const today = new Date().toISOString().split('T')[0];
     
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
@@ -96,15 +98,16 @@ function saveCompletedTasksToLocalStorage() {
 function deleteTask(index) {
     tasks.splice(index, 1);
     saveTasksToLocalStorage();
-    updateTaskList();
+    //updateTaskList();
     updateTaskSummary();
 }
 
 function deleteCompletedTask(index) {
     completedTasks.splice(index, 1);
     saveCompletedTasksToLocalStorage();
-    updateTaskList();
+    //updateTaskList();
     updateTaskSummary();
+    
 }
 
 updateTaskList();
@@ -123,7 +126,7 @@ function showTotalTasks() {
         li.innerHTML = `
             <span>${task.title} - Deadline: ${task.deadline}</span>
             <button onclick="completeTask(${index})">Complete</button>
-            <button onclick="deleteTask(${index})">Delete</button>
+            <button onclick="deleteTask(${index},)">Delete</button>
             
         `;
         //li.textContent = `${task.title} - Deadline: ${task.deadline}`;
