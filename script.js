@@ -110,10 +110,12 @@ function deleteCompletedTask(index) {
     
 }
 
-updateTaskList();
-//updateTaskSummary();
+//updateTaskList();
+updateTaskSummary();
 
 function showTotalTasks() {
+    const searchResultList = document.getElementById('searchResultList');
+    searchResultList.innerHTML = '';
     const totalList = document.getElementById('totalList');
     totalList.innerHTML = '';
     const completedList = document.getElementById('completedList');
@@ -141,9 +143,13 @@ function showTotalTasks() {
         //li.textContent = `${task.title} - Completed on: ${task.completedOn}`;
         totalList.appendChild(li);
     });
+    updateTaskSummary();
+
 }
 
 function showCompletedTasks() {
+    const searchResultList = document.getElementById('searchResultList');
+    searchResultList.innerHTML = '';
     const totalList = document.getElementById('totalList');
     totalList.innerHTML = '';
     const completedList = document.getElementById('completedList');
@@ -160,9 +166,13 @@ function showCompletedTasks() {
         //li.textContent = `${task.title} - Completed on: ${task.completedOn}`;
         completedList.appendChild(li);
     });
+    updateTaskSummary();
+
 }
 
 function showRemainingTasks() {
+    const searchResultList = document.getElementById('searchResultList');
+    searchResultList.innerHTML = '';
     const totalList = document.getElementById('totalList');
     totalList.innerHTML = '';
     const completedList = document.getElementById('completedList');
@@ -181,7 +191,55 @@ function showRemainingTasks() {
         //li.textContent = `${task.title} - Deadline: ${task.deadline}`;
         taskList.appendChild(li);
     });
+    updateTaskSummary();
+
 }
+function searchTaskByTitle(title) {
+    const filteredTasks = tasks.filter(task => task.title.includes(title));
+    return filteredTasks;
+}
+function searchCoTaskByTitle(title) {
+    const coFilteredTasks = completedTasks.filter(task => task.title.includes(title));
+    return coFilteredTasks;
+}
+
+function showSearchedTasks() {
+    const searchInput = document.getElementById('searchInput').value;
+    const searchResultList = document.getElementById('searchResultList');
+    searchResultList.innerHTML = '';
+    const totalList = document.getElementById('totalList');
+    totalList.innerHTML = '';
+    const completedList = document.getElementById('completedList');
+    completedList.innerHTML = '';
+    const taskList = document.getElementById('taskList');
+    taskList.innerHTML = '';
+
+
+    const searchedTasks =  searchTaskByTitle(searchInput);
+    const coFilteredTasks = searchCoTaskByTitle(searchInput);
+    searchedTasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+        <span>${task.title} - Deadline: ${task.deadline}</span>
+        <button onclick="completeTask(${index})">Complete</button>
+        <button onclick="deleteTask(${index})">Delete</button>`;
+       // li.textContent = `${task.title} - Deadline: ${task.deadline}`;
+        searchResultList.appendChild(li);
+    });
+    coFilteredTasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${task.title} - Completed on: ${task.completedOn}</span>
+            <button onclick="deleteCompletedTask(${index})">Delete</button>
+        `;
+       // li.textContent = `${task.title} - Deadline: ${task.deadline}`;
+        searchResultList.appendChild(li);
+    });
+    updateTaskSummary();
+
+}
+
+document.getElementById('searchBtn').addEventListener('click', showSearchedTasks);
 
 document.getElementById('totalBtn').addEventListener('click', showTotalTasks);
 document.getElementById('completedBtn').addEventListener('click', showCompletedTasks);
