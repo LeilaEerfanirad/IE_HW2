@@ -23,21 +23,9 @@ function addTask() {
     tasks.push(task);
     saveTasksToLocalStorage();
 
-    updateTaskList();
-    updateTaskSummary();
+    // updateTaskList();
+     updateTaskSummary();
 }
-
-// function completeTask(index) {
-//     tasks[index].completed = true;
-//     completedTasks.push(tasks[index]);
-//     tasks.splice(index, 1);
-
-//     saveTasksToLocalStorage();
-//     saveCompletedTasksToLocalStorage();
-
-//     updateTaskList();
-//     updateTaskSummary();
-// }
 function completeTask(index) {
     const now = new Date().toLocaleString();
     tasks[index].completed = true;
@@ -48,17 +36,15 @@ function completeTask(index) {
     saveTasksToLocalStorage();
     saveCompletedTasksToLocalStorage();
 
-    updateTaskList();
-    updateTaskSummary();
+     updateTaskList();
+     updateTaskSummary();
 }
 
 function updateTaskList() {
-    const totalList = document.getElementById('taskList');
+    const totalList = document.getElementById('totalList');
     totalList.innerHTML = '';
     const taskList = document.getElementById('taskList');
     taskList.innerHTML = '';
-
-    //const today = new Date().toISOString().split('T')[0];
     
     tasks.forEach((task, index) => {
         const li = document.createElement('li');
@@ -72,22 +58,11 @@ function updateTaskList() {
         taskList.appendChild(li);
     });
 
-    // const todayTasks = tasks.filter(task => task.deadline === today && !task.completed);
-    // todayTasks.sort((a, b) => (a.deadline > b.deadline) ? 1 : -1);
-
-    // const todayList = document.getElementById('todayList');
-    // todayList.innerHTML = '';
-    // todayTasks.forEach(task => {
-    //     const li = document.createElement('li');
-    //     li.textContent = `${task.title} - Deadline: ${task.deadline}`;
-    //     todayList.appendChild(li);
-    // });
-
     const completedList = document.getElementById('completedList');
     completedList.innerHTML = '';
     completedTasks.forEach((task , index )=> {
         const li = document.createElement('li');
-       // li.textContent = `${task.title} - Completed on: ${task.completedOn}`;
+      
         li.innerHTML = `
             <span>${task.title} - Completed on: ${task.completedOn}</span>
             <button onclick="deleteCompletedTask(${index})">Delete</button>
@@ -131,6 +106,80 @@ function deleteCompletedTask(index) {
     updateTaskList();
     updateTaskSummary();
 }
-// Initial update of the task list and summary
+
 updateTaskList();
-updateTaskSummary();
+//updateTaskSummary();
+
+function showTotalTasks() {
+    const totalList = document.getElementById('totalList');
+    totalList.innerHTML = '';
+    const completedList = document.getElementById('completedList');
+    completedList.innerHTML = '';
+    const taskList = document.getElementById('taskList');
+    taskList.innerHTML = '';
+
+    tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${task.title} - Deadline: ${task.deadline}</span>
+            <button onclick="completeTask(${index})">Complete</button>
+            <button onclick="deleteTask(${index})">Delete</button>
+            
+        `;
+        //li.textContent = `${task.title} - Deadline: ${task.deadline}`;
+        totalList.appendChild(li);
+    });
+    completedTasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${task.title} - Completed on: ${task.completedOn}</span>
+            <button onclick="deleteCompletedTask(${index})">Delete</button>
+        `;
+        //li.textContent = `${task.title} - Completed on: ${task.completedOn}`;
+        totalList.appendChild(li);
+    });
+}
+
+function showCompletedTasks() {
+    const totalList = document.getElementById('totalList');
+    totalList.innerHTML = '';
+    const completedList = document.getElementById('completedList');
+    completedList.innerHTML = '';
+    const taskList = document.getElementById('taskList');
+    taskList.innerHTML = '';
+
+    completedTasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${task.title} - Completed on: ${task.completedOn}</span>
+            <button onclick="deleteCompletedTask(${index})">Delete</button>
+        `;
+        //li.textContent = `${task.title} - Completed on: ${task.completedOn}`;
+        completedList.appendChild(li);
+    });
+}
+
+function showRemainingTasks() {
+    const totalList = document.getElementById('totalList');
+    totalList.innerHTML = '';
+    const completedList = document.getElementById('completedList');
+    completedList.innerHTML = '';
+    const taskList = document.getElementById('taskList');
+    taskList.innerHTML = '';
+
+    tasks.forEach((task, index) => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+            <span>${task.title} - Deadline: ${task.deadline}</span>
+            <button onclick="completeTask(${index})">Complete</button>
+            <button onclick="deleteTask(${index})">Delete</button>
+            
+        `;
+        //li.textContent = `${task.title} - Deadline: ${task.deadline}`;
+        taskList.appendChild(li);
+    });
+}
+
+document.getElementById('totalBtn').addEventListener('click', showTotalTasks);
+document.getElementById('completedBtn').addEventListener('click', showCompletedTasks);
+document.getElementById('remainBtn').addEventListener('click', showRemainingTasks);
