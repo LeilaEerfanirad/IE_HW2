@@ -1,7 +1,6 @@
-// Load tasks from localStorage
+
 let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
 
-// Load completed tasks from localStorage
 let completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
 
 function addTask() {
@@ -26,6 +25,7 @@ function addTask() {
     // updateTaskList();
      updateTaskSummary();
 }
+
 function completeTask(index) {
     const now = new Date().toLocaleString();
     tasks[index].completed = true;
@@ -194,10 +194,12 @@ function showRemainingTasks() {
     updateTaskSummary();
 
 }
+
 function searchTaskByTitle(title) {
     const filteredTasks = tasks.filter(task => task.title.includes(title));
     return filteredTasks;
 }
+
 function searchCoTaskByTitle(title) {
     const coFilteredTasks = completedTasks.filter(task => task.title.includes(title));
     return coFilteredTasks;
@@ -240,7 +242,6 @@ function showSearchedTasks() {
 }
 
 document.getElementById('searchBtn').addEventListener('click', showSearchedTasks);
-
 document.getElementById('totalBtn').addEventListener('click', showTotalTasks);
 document.getElementById('completedBtn').addEventListener('click', showCompletedTasks);
 document.getElementById('remainBtn').addEventListener('click', showRemainingTasks);
